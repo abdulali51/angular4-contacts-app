@@ -1,0 +1,85 @@
+<mdl-list>
+	<app-contact-list-item *ngFor="let contact of contacts" [contact]="contact"></app-contact-list-item>
+</mdl-list>
+
+<div class="add-button">
+	<button #createContactButton 
+			mdl-button  
+			mdl-button-type="fab" 
+			mdl-colored="accent" 
+			mdl-ripple 
+			(click)="createContactDialog.show()">
+		<mdl-icon>add</mdl-icon>
+	</button>
+</div>
+
+<mdl-dialog #createContactDialog
+            [mdl-dialog-config]="{
+              clickOutsideToClose: false,
+              styles:{'width': '30%'},
+              isModal:true,
+              openFrom: createContactButton,
+              enterTransitionDuration: 400,
+              leaveTransitionDuration: 400}">
+  <h3 class="mdl-dialog__title">Create Contact</h3>
+  	<form [formGroup]="form">
+  		<div class="mdl-dialog__content">
+  			<p>
+  				<mdl-textfield type="text" 
+	    						label="Fisrt Name" 
+	    						formControlName="firstName"
+			    				required
+			    				error-msg="First Name is required!"
+			    				[(ngModel)]="firstName" 
+			    				floating-label 
+			    				autofocus>			
+	    		</mdl-textfield>
+	    	</p>
+	  		<p>
+	  			<mdl-textfield type="text" 
+			    				label="Last Name" 
+			    				formControlName="lastName"
+			    				required
+			    				error-msg="Last Name is required!"
+			    				[(ngModel)]="lastName" 
+			    				floating-label>
+	    		</mdl-textfield>
+			</p>
+	  		<p>
+	  			<mdl-textfield type="text" 
+			    				label="Email" 
+			    				formControlName="email"
+			    				required
+			    				pattern="^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$"
+			    				error-msg="Please enter a valid email address!"
+			    				[(ngModel)]="email" 
+			    				floating-label>
+	    		</mdl-textfield>
+	  		</p>
+	  		<p>
+	    		<mdl-textfield type="text" 
+			    				label="Phone" 
+			    				formControlName="phone"
+			    				required
+			    				maxlength="10"
+			    				minlength="10"
+			    				pattern="-?[0-9]*(\.[0-9]+)?"
+			    				error-msg="Please enter a valid 10 digit phone number!"
+			    				[(ngModel)]="phone" 
+			    				floating-label>
+	    		</mdl-textfield>
+	  		</p>
+	  		<p>
+	  			<mdl-switch mdl-ripple 
+			  				formControlName="status"
+			  				[(ngModel)]="status">
+			  				Status
+			  	</mdl-switch>
+	  		</p>
+	  	</div>
+	  	<div class="mdl-dialog__actions">
+	    	<button mdl-button [disabled]="!form.valid" (click)="saveContact();createContactDialog.close()" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
+	    	<button mdl-button (click)="createContactDialog.close()" mdl-ripple>Cancel</button>
+	  	</div>
+  	</form>
+</mdl-dialog>
